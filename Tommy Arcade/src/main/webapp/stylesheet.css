@@ -1,0 +1,131 @@
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+.strike > span {
+    position: relative;
+    display: inline-block;
+	font-family: Calibri, sans-serif;
+}
+
+.strike > span:before,
+.strike > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 1px;
+    background: grey;
+}
+
+.strike > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.headings {
+	font-family: Calibri, sans-serif;
+	color: #C41E3A;
+}
+
+.button {
+  background-color: #C41E3A; 
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 8px 4px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+	border-radius: 25px;
+	font-family: Calibri, sans-serif;
+}
+
+.button:hover {
+	background-color: white;
+	border: 2px solid #FFC72C;
+	color: #C41E3A;
+}
+
+.logout {
+  background-color: #C41E3A; 
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 8px 4px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+	border-radius: 25px;
+	font-family: Calibri, sans-serif;
+}
+
+.logout:hover {
+	background-color: white;
+	border: 2px solid #FFC72C;
+	color: #C41E3A;
+}
+
+.LogInDiv {
+	width: 50%;
+	top: 50%;
+	float: left;
+	height: 100%;
+	text-align: center;
+}
+
+.NoAccDiv {
+	width: 50%;
+	top: 50%;
+	float: right;
+	height: 100%;
+	text-align: center;
+}
+
+.content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	text-align: center;
+}
+
+.text {
+	font-family: Calibri, sans-serif;
+}
+
+.content > * {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+}
+.content .login-buttons {
+  z-index: 2;
+}
+.content .logo {
+  z-index: 1;
+	margin: 4px; 
+}
+
+.token-display {
+	float: left;
+}
+
+.user-logout {
+	float: right;
+	text-align: center;
+	display: inline-block;
+}
