@@ -2,8 +2,10 @@
 <html>
 <head>
 	<meta charset = "UTF-8">
-	<title>Home</title>
+	<title>Leaderboard</title>
 	<link rel = "stylesheet" href = "stylesheet.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="leaderboard.js"></script>	
 </head>
 <body>
 	<div class = "header">
@@ -15,20 +17,19 @@
 			<button class = "logout" type = "submit">Log Out</button>
 		</div>
 	</div>
-	<div class = "content">
+	<div class="content-up">
 		<div class = "logo">
-			<img src = "tommysarcade.png" width = "360" height = "240">
+			<img src = "tommysarcade.png" width = "180" height = "120">
 		</div>
-		<div class = "login-buttons">
-			<form action = "">
-			<button class = "button" type = "submit">Leaderboard</button>
-			</form>
-			<form action = "">
-			<button class = "button" type = "submit">Play Blackjack</button>
-			</form>
-			<form action = "">
-			<button class = "button" type = "submit">Play Poker</button>
-			</form>
+		<div id="leaderboard-heading">
+			LEADERBOARD
 		</div>
+		<div id="leaderboard-display">
+			<p id="leader1">1. --------- </p>
+			<p id="leader2">2. --------- </p>
+			<p id="leader3">3. --------- </p>
+		</div>
+		<button class = "return-home button" style="font-size:25px;" onclick="location.href = 'home.html';">
+			Return to Home</button>
 	</div>
 </body>

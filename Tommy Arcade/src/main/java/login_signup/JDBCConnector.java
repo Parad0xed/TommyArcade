@@ -5,10 +5,56 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 //import com.google.gson.Gson;
 
 public class JDBCConnector {
+	
+	public static String getLeaderboard() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error JDBCConn: "+e.getMessage());
+		}
+		
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/TommysArcade?user=root&password=root&useSSL=false");
+			st = conn.createStatement();
+			rs = st.executeQuery("select uname, chips from Users order by chips DESC");
+			int count = 0;
+			ArrayList<String> unames = new ArrayList<String>();
+			ArrayList<Integer> bals = new ArrayList<Integer>();
+			while(rs.next() && count <= 3) {
+				bals.add(rs.getInt("chips"));
+				unames.add(rs.getString("uname"));
+				count++;
+			}
+			
+			String str = "";
+			for(int i = 0; i < unames.size(); i++) {
+				str += unames.get(i) + " " + bals.get(i) + "\n";
+			}
+			return str;
+		} catch(SQLException sqle) {
+			System.out.println("SQLE in getLeaderboard: "+sqle.getMessage());
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle: "+sqle.getMessage());
+			}
+		}
+		return "";
+	}
 	public static int registerUser(String uname, String pwd) {
 		// -1 = user exists, -2 = SQL error, else = user id 
 		try {

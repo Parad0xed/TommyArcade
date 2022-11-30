@@ -104,6 +104,14 @@
 	text-align: center;
 }
 
+.content-up{
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	text-align: center;
+}
+
 .text {
 	font-family: Calibri, sans-serif;
 }
@@ -128,4 +136,13 @@
 	float: right;
 	text-align: center;
 	display: inline-block;
+}
+
+#leaderboard-heading{
+	font-family: Century Gothic;
+	font-size: 60px;
+}
+#leaderboard-display{
+	font-family: Century Gothic;
+	font-size: 20px;
 }

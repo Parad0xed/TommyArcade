@@ -28,18 +28,19 @@ public class SignupServlet extends HttpServlet {
 		
 		int result = JDBCConnector.registerUser(uname, pwd);
 		System.out.println("signup servlet got result = "+result);
-		if(result == -1) { // user name already exists
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Username already exists');");
-			out.println("location='signup.html';");
-			out.println("</script>");
-		}
-		else { // OK
-			session.setAttribute("isGuest", false);
-			session.setAttribute("UID", result);
-			// change to use cookies.
-			response.sendRedirect("home.html");
-		}
+//		if(result == -1) { // user name already exists
+//			out.println("<script type=\"text/javascript\">");
+//			out.println("alert('Username already exists');");
+//			out.println("location='signup.html';");
+//			out.println("</script>");
+//		}
+//		else { // OK
+//			session.setAttribute("isGuest", false);
+//			session.setAttribute("UID", result);
+//			// change to use cookies.
+//			response.sendRedirect("home.html");
+//		}
+		out.print(result);
 		
 	}
 }
