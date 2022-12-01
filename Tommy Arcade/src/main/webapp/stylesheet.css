@@ -116,10 +116,12 @@ html {
 #leaderboard-heading{
 	font-family: Century Gothic;
 	font-size: 60px;
+	color: white;
 }
 #leaderboard-display{
 	font-family: Century Gothic;
 	font-size: 20px;
+	color: white;
 }
 
 .chat{
@@ -206,5 +208,5 @@ background-color: #73278f;
 .return > button:hover {
 	background-color: white;
 	color: #73278f;
-	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
+	box-shadow: 0 5px 10px rgba(148, 85, 171, .8);
 }
