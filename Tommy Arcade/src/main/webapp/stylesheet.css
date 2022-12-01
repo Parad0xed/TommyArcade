@@ -146,3 +146,57 @@
 	font-family: Century Gothic;
 	font-size: 20px;
 }
+
+.chat{
+	font-family: Calibri;
+	border: 0px solid grey;
+	width: 25%;
+	height: 30%;
+    position: fixed;
+    left: 0%;
+    bottom: 0%;
+}
+.chatmessages{
+		background-color: rgba(226, 225, 226, 0.5); 
+	
+    overflow-y: auto;
+    word-wrap: break-word;
+    padding: 1%;
+    border: 0px solid grey;
+    height: 90%;
+    width: 100%;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    padding-left: 2%;
+    padding-bottom: 0%;
+    box-sizing: border-box;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.chatinput {
+	background-color: rgba(197, 186, 192, 0.5);
+	border: 0px solid grey;
+    height: 10%;
+    width: 100%;
+    position: absolute;
+    left: 0%;
+    bottom: 0%;
+    padding-left: 2%;
+   	box-sizing: border-box;
+}
+#chatinput{
+	background-color: transparent;
+	width: 78%;
+	height: 100%;
+	border: 0px solid grey;
+}
+#chatinput:focus{
+	outline: none;
+}
+
+.system-text {
+	font-style: italic;
+	color: #8f8f8f;
+}

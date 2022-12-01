@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Home</title>
+	<link rel = "stylesheet" href = "stylesheet.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="chat.js"></script>
+</head>
+<body>
+	<div class = "header">
+		<div class = "token-display">
+			<span> number of tokens </span>
+		</div>
+		<div class = "user-logout">
+			<span style = "display: inline-block;"> username </span>
+			<button class = "logout" type = "submit">Log Out</button>
+		</div>
+	</div>
+	<div class = "content">
+		<div class = "logo">
+			<img src = "tommysarcade.png" width = "360" height = "240">
+		</div>
+		<div class = "login-buttons">
+			<button class = "button" onclick="location.href = 'leaderboard.html';">Leaderboard</button>
+			<form action = "">
+			<button class = "button" type = "submit">Play Blackjack</button>
+			</form>
+			<form action = "">
+			<button class = "button" type = "submit">Play Poker</button>
+			</form>
+		</div>
+	</div>
+	<div class="chat">
+		<div id="chat-messages" class="chatmessages"></div><br/>
+		<form name="chatform" id="chatform" >
+			<span class="chatinput">
+				<i>Uname:</i> 
+				<input type="text" name="chatinput" id="chatinput" />
+			</span>
+			
+		</form>
+	</div>
+</body>
