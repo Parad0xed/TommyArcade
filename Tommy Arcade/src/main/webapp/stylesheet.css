@@ -1,34 +1,9 @@
-.strike {
-    display: block;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap; 
-}
-
-.strike > span {
-    position: relative;
-    display: inline-block;
-	font-family: Calibri, sans-serif;
-}
-
-.strike > span:before,
-.strike > span:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 50px;
-    height: 1px;
-    background: grey;
-}
-
-.strike > span:before {
-    right: 100%;
-    margin-right: 15px;
-}
-
-.strike > span:after {
-    left: 100%;
-    margin-left: 15px;
+html { 
+  background: url(background.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .headings {
@@ -37,7 +12,7 @@
 }
 
 .button {
-  background-color: #C41E3A; 
+  background-color: #73278f;
   border: none;
   color: white;
   padding: 8px 16px;
@@ -54,8 +29,8 @@
 
 .button:hover {
 	background-color: white;
-	border: 2px solid #FFC72C;
-	color: #C41E3A;
+	color: #73278f;
+	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
 }
 
 .logout {
@@ -76,8 +51,8 @@
 
 .logout:hover {
 	background-color: white;
-	border: 2px solid #FFC72C;
 	color: #C41E3A;
+	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
 }
 
 .LogInDiv {
@@ -157,8 +132,7 @@
     bottom: 0%;
 }
 .chatmessages{
-		background-color: rgba(226, 225, 226, 0.5); 
-	
+	background-color: rgba(25, 25, 25, 0.5); 	
     overflow-y: auto;
     word-wrap: break-word;
     padding: 1%;
@@ -171,12 +145,13 @@
     padding-left: 2%;
     padding-bottom: 0%;
     box-sizing: border-box;
+	color: white; 
 }
 ::-webkit-scrollbar {
     display: none;
 }
 .chatinput {
-	background-color: rgba(197, 186, 192, 0.5);
+	background-color: rgba(10, 10, 10, 0.6);
 	border: 0px solid grey;
     height: 10%;
     width: 100%;
@@ -185,12 +160,14 @@
     bottom: 0%;
     padding-left: 2%;
    	box-sizing: border-box;
+	color: #b3adc7;
 }
 #chatinput{
 	background-color: transparent;
 	width: 78%;
 	height: 100%;
 	border: 0px solid grey;
+	color: white;
 }
 #chatinput:focus{
 	outline: none;
