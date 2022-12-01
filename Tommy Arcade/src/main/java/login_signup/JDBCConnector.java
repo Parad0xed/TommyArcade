@@ -9,6 +9,42 @@ import java.util.ArrayList;
 //import com.google.gson.Gson;
 
 public class JDBCConnector {
+	public static void setChipCount(String username, int num) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error JDBCConn: "+e.getMessage());
+		}
+		
+		Connection conn = null;
+		Statement st = null;
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/TommysArcade?user=root&password=root&useSSL=false");
+			st = conn.createStatement();
+			
+			// I assume the number of chips you want to remove (if num is negative) is a valid number
+			// Call getChips to check if we should not assume validity
+			st.executeUpdate("update Users set chips ="+ num +" where uname = '"+username+"'");
+			
+		} catch(SQLException sqle) {
+			System.out.println("SQLE in getLeaderboard: "+sqle.getMessage());
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle: "+sqle.getMessage());
+			}
+		}
+		
+	}
+	
+	
 	public static void addToChips(String username, int num) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

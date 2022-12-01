@@ -21,6 +21,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import login_signup.*;
+
 @WebServlet("/PokerServlet")
 public class PokerServlet extends HttpServlet{
 	
@@ -30,6 +32,10 @@ public class PokerServlet extends HttpServlet{
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 		String username = request.getParameter("username");
+		int chipCount = 2000;
+		if(username != null) {
+			if(!username.isEmpty()) chipCount = JDBCConnector.getChips(username);
+		}
 		
 		if(action.equals("INIT")) {
 			
@@ -90,7 +96,8 @@ public class PokerServlet extends HttpServlet{
 			out.println("\"community\":[\"" + draws.get(4) + "\", \"" + draws.get(5) + "\", \"" 
 			+ draws.get(6) + "\", \"" + draws.get(7) + "\", \"" + draws.get(8) + "\"],");
 			out.println("\"winningHand\": \"" + result + "\",");
-			out.println("\"winner\": \"" + winner + "\"");
+			out.println("\"winner\": \"" + winner + "\",");
+			out.println("\"chipCount\":" + chipCount);
 			out.println("}");
 		}
 		

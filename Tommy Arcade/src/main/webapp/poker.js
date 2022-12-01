@@ -12,11 +12,13 @@ var stackSize = 2000;
 
 
 function startGame(){
-    if(stackSize >= 100){//Sufficient Chips to Play
         var xhttp = new XMLHttpRequest();
         xhttp.onload = function() {
             console.log(this.responseText);
             data = JSON.parse(this.responseText);
+            if(getCookie("username").length > 0){//Checks for user
+                stackSize = data["chipCount"];
+            }
             playerCards = data["player"];
             oppCards = data["opponent"];
             commCards = data["community"];
@@ -24,38 +26,65 @@ function startGame(){
             winningHand = data["winningHand"];
             winningHand = winningHand.replace(/_/g, " ");
 
-            document.getElementById("playerCard1").src = "images/cards/" + playerCards[0] + ".png";
-            document.getElementById("playerCard2").src = "images/cards/" + playerCards[1] + ".png";
-            document.getElementById("oppCard1").src = "images/cards/backB.png";
-            document.getElementById("oppCard2").src = "images/cards/backB.png";
-            document.getElementById("commCard1").src = "images/cards/backB.png";
-            document.getElementById("commCard2").src = "images/cards/backB.png";
-            document.getElementById("commCard3").src = "images/cards/backB.png";
-            document.getElementById("commCard4").src = "images/cards/backB.png";
-            document.getElementById("commCard5").src = "images/cards/backB.png";
-            
-            document.getElementById("status").innerHTML = "Your Move";
-            document.getElementById("leftButton").textContent = "FOLD";
-            document.getElementById("midButton").textContent = "CHECK/CALL";
-            document.getElementById("rightButton").textContent = "BET";
-    
-            playerBet = 100;
-            opponentBet = 100;
-            potSize = 200;
-            stackSize -= 100;
-            updateNumbers();
-            state = "preflop";
-            console.log("Game Started...");
+            if(stackSize >= 100){//Enough to play
+                document.getElementById("playerCard1").src = "images/cards/" + playerCards[0] + ".png";
+                document.getElementById("playerCard2").src = "images/cards/" + playerCards[1] + ".png";
+                document.getElementById("oppCard1").src = "images/cards/backB.png";
+                document.getElementById("oppCard2").src = "images/cards/backB.png";
+                document.getElementById("commCard1").src = "images/cards/backB.png";
+                document.getElementById("commCard2").src = "images/cards/backB.png";
+                document.getElementById("commCard3").src = "images/cards/backB.png";
+                document.getElementById("commCard4").src = "images/cards/backB.png";
+                document.getElementById("commCard5").src = "images/cards/backB.png";
+                
+                document.getElementById("status").innerHTML = "Your Move";
+                document.getElementById("leftButton").textContent = "FOLD";
+                document.getElementById("midButton").textContent = "CHECK/CALL";
+                document.getElementById("rightButton").textContent = "BET";
+        
+                playerBet = 100;
+                opponentBet = 100;
+                potSize = 200;
+                stackSize -= 100;
+                updateNumbers();
+                state = "preflop";
+                console.log("Game Started...");
+            }
+            else{//Insufficient Chips        
+                document.getElementById("status").innerHTML = "Insufficient Chips to Play";
+            }
+
         };
-        // /username = getCookie("username");
-        username = "Player1"
+        username = getCookie("username");
         xhttp.open("GET", "/Tommy_Arcade/PokerServlet" + "?username=" + username + "&action=" + "INIT", true);
         xhttp.send();
-    }
-    else{//Not Enough Chips to Play
-        document.getElementById("status").innerHTML = "Insufficient Chips to Play";
-    }
+}
 
+function updateChips(){
+    var xhttp = new XMLHttpRequest();
+    username = getCookie("username");
+    xhttp.open("GET", "/Tommy_Arcade/ChipUpdateServlet" + "?username=" + username + "&newBalance=" + balance);
+    xhttp.send();
+    console.log("Update Request SEnt");
+}
+
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
+    }
+    else
+    {
+        begin += 2;
+        var end = document.cookie.indexOf(";", begin);
+        if (end == -1) {
+        end = dc.length;
+        }
+    }
+    return decodeURI(dc.substring(begin + prefix.length, end));
 }
 
 function flop(){
@@ -173,15 +202,7 @@ function opponentAction(raiseValue){
         }
     }
     else if(raiseValue > 0){//Player raises
-        if(action >= 20){//Opponent Calls
-            const diff = playerBet-opponentBet;
-            opponentBet += diff;
-            potSize += diff;
-            document.getElementById("status").innerHTML = "Opponent Calls " + diff;
-            updateNumbers();
-            moveState();
-        }
-        else{//Opponent Folds
+        if(action < 20){//Opponent Folds
             stackSize += potSize;
             winner = "player";
             state = "postgame";
@@ -189,6 +210,14 @@ function opponentAction(raiseValue){
             document.getElementById("leftButton").textContent = "-----";
             document.getElementById("midButton").textContent = "PLAY AGAIN";
             document.getElementById("rightButton").textContent = "RUNOUT";
+        }
+        else{//Opponent Calls
+            const diff = playerBet-opponentBet;
+            opponentBet += diff;
+            potSize += diff;
+            document.getElementById("status").innerHTML = "Opponent Calls " + diff;
+            updateNumbers();
+            moveState();
         }
     }
     
@@ -231,6 +260,7 @@ function moveState(){
         }
         winner = "";
         updateNumbers();
+        updateChips();
     }
     else if(state == "postgame"){
         state = "preflop"
