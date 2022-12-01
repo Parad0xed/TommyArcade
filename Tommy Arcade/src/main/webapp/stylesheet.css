@@ -33,7 +33,7 @@ html {
 	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
 }
 
-.logout {
+.logout, .login {
   background-color: #C41E3A; 
   border: none;
   color: white;
@@ -49,7 +49,7 @@ html {
 	font-family: Calibri, sans-serif;
 }
 
-.logout:hover {
+.logout:hover, .login:hover {
 	background-color: white;
 	color: #C41E3A;
 	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
@@ -176,4 +176,9 @@ html {
 .system-text {
 	font-style: italic;
 	color: #8f8f8f;
+}
+
+.login-form {
+	color: white;
+	font-family: Calibri, sans-serif;
 }

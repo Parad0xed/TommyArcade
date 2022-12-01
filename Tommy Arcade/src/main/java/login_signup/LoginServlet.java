@@ -24,20 +24,22 @@ public class LoginServlet extends HttpServlet {
 		String pwd = request.getParameter("password");
 		
 		int result = JDBCConnector.loginUser(uname, pwd);
-		if(result == -1) { // invalid name / pass
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Invalid username or password.');");
-			out.println("location='login.html';");
-			out.println("</script>");
-		}
-		else if(result == -2) {
-			System.out.println("SQLE from LoginServlet call");
-		}
-		else { // OK
-			session.setAttribute("isGuest", false);
-			session.setAttribute("UID", result);
-			response.sendRedirect("home.html");
-		}
+		System.out.println("login servlet got result = "+result);
+		out.print(result);
+//		if(result == -1) { // invalid name / pass
+//			out.println("<script type=\"text/javascript\">");
+//			out.println("alert('Invalid username or password.');");
+//			out.println("location='login.html';");
+//			out.println("</script>");
+//		}
+//		else if(result == -2) {
+//			System.out.println("SQLE from LoginServlet call");
+//		}
+//		else { // OK
+//			session.setAttribute("isGuest", false);
+//			session.setAttribute("UID", result);
+//			response.sendRedirect("home.html");
+//		}
 		
 		
 	}
