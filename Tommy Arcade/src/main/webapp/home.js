@@ -1,10 +1,9 @@
 /**
  * 
  */
- // DO GUEST  COOKIE STUFF TO UPDATE NAV BAR DEPENDING ON STATUS
- 
+ // from WebSocket slides
+ var socket
  $(function(){
-	
 	let currUname = getCookie("uname");
 	if(currUname == "" || currUname == null){
 		currUname = "Guest"
@@ -14,21 +13,54 @@
 		buildUserHeader(currUname);
 	}
 	
-	$.get({
-		url: "LeaderboardServlet",
-		success: function( result ) {
-			console.log("from leaderboard get, result is: "+result);
-			buildLeaderboardDisplay(result)
+	socket = new WebSocket("ws://localhost:8080/Tommy_Arcade/chat");
+	socket.onopen = function(event){
+		document.getElementById("chat-messages").innerHTML += "<span class='system-text'>Connected to chat... </span><br/>"
+	}
+	socket.onmessage = function(event){
+		document.getElementById("chat-messages").innerHTML += event.data + "<br />";
+	    $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+	    if(!($("#chat-messages").is(":visible"))) {
+			$('#chat-messages').show();
 		}
+	}
+	socket.onclose = function(event){
+		document.getElementById("chat-messages").innerHTML += "Disconnected!";
+	}
+	
+	$("#chatform").submit(function(e) {
+	    e.preventDefault();
+	    if(document.chatform.chatinput.value == "")
+	    	return false;
+	    socket.send("<i>("+currUname+")</i>: "+document.chatform.chatinput.value)
+	    document.chatform.chatinput.value = ""
+		return false;
 	});
 	
-	$("#logoutbutton").click(function() {
+	$(document).on('keypress', function(e) {
+        if(e.which == 13) { // enter
+        	// alert("current active focus is..."+(document.activeElement == document.getElementById("chat-input")))
+        	if(document.activeElement == document.getElementById("chatinput") &&
+        		 document.chatform.chatinput.value == ""){ // currently focused on chat input and empty
+				document.activeElement.blur()
+				$('#chat-messages').fadeOut();
+			}
+			else{
+        		$('#chatinput').focus();   
+        		$('#chat-messages').fadeIn();    
+    		}                    
+        }
+    });
+    
+    console.log("username cookie: "+getCookie("uname"));
+    
+    $("#logoutbutton").click(function() {
 	    //document.chatform.chatinput.value = ""
 		document.cookie = "uname=";
 		alert("Successfully logged out.")
     	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
 	});
-})
+});
 
 function buildGuestHeader(){
 	let str = `
@@ -55,23 +87,6 @@ function buildUserHeader(uname){
 		</div>
 	`;
 	document.getElementById("header").innerHTML = str;
-}
-
-function buildLeaderboardDisplay(result){
-	if (result === ""){
-		return;
-	}
-	const leaders = result.split("\n");
-	console.log("number of rows is leaders size is: "+leaders.length+" and leaders has: "+leaders)
-	for(let i = 0; i < leaders.length-1; i++){
-		let leader = leaders[i].split(" ");
-		let wrapper = document.querySelector("#leader"+(i+1));
-		if(wrapper != null){
-			wrapper.innerHTML = `
-				${i+1}. <strong>${leader[0]}</strong> : ${leader[1]} chips
-			`;
-		}
-	}
 }
 
 function getCookie(name) {

@@ -58,7 +58,7 @@
 	color: #C41E3A;
 }
 
-.logout {
+.logout, .login {
   background-color: #C41E3A; 
   border: none;
   color: white;
@@ -74,7 +74,7 @@
 	font-family: Calibri, sans-serif;
 }
 
-.logout:hover {
+.logout:hover, .login:hover {
 	background-color: white;
 	border: 2px solid #FFC72C;
 	color: #C41E3A;
