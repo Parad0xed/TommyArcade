@@ -177,3 +177,8 @@ html {
 	font-style: italic;
 	color: #8f8f8f;
 }
+
+.login-form {
+	color: white;
+	font-family: Calibri, sans-serif;
+}
