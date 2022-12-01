@@ -70,15 +70,16 @@ public class PokerServlet extends HttpServlet{
 			
 			JSONArray buffer = (JSONArray) data.get("winners");
 			JSONObject winData = (JSONObject) buffer.get(0);
-			String winningHand = winData.get("result").toString();
-			String winner = winData.get("cards").toString().substring(0, 2);
-			if(winner.equals(draws.get(0))) {//Player Wins
+			String result = winData.get("result").toString();
+			String winningHand = winData.get("hand").toString();
+			String winner;
+			if(winningHand.contains(draws.get(0)) || winningHand.contains(draws.get(1))) {//Player Wins
 				winner = "player";
 			}
 			else {//Opponent Wins
 				winner = "opponent";
 			}
-			if(buffer.size() > 1) winner = "tie";
+			if(buffer.size() > 1) winner = "both";
 			
 			//Write Response JSON
 			PrintWriter out = response.getWriter();
@@ -88,7 +89,7 @@ public class PokerServlet extends HttpServlet{
 			out.println("\"opponent\":[\"" + draws.get(2) + "\", \"" + draws.get(3) + "\"],");
 			out.println("\"community\":[\"" + draws.get(4) + "\", \"" + draws.get(5) + "\", \"" 
 			+ draws.get(6) + "\", \"" + draws.get(7) + "\", \"" + draws.get(8) + "\"],");
-			out.println("\"winningHand\": \"" + winningHand + "\",");
+			out.println("\"winningHand\": \"" + result + "\",");
 			out.println("\"winner\": \"" + winner + "\"");
 			out.println("}");
 		}
