@@ -5,7 +5,7 @@
  
  $(function(){
 	
-	let currUname = getCookie("uname");
+	let currUname = getCookie("username");
 	if(currUname == "" || currUname == null){
 		currUname = "Guest"
 		buildGuestHeader();
@@ -22,7 +22,7 @@
 				buildUserHeader(capUname, result)
 				$("#logoutbutton").click(function() {
 				    //document.chatform.chatinput.value = ""
-					document.cookie = "uname=";
+					document.cookie = "username=";
 					alert("Successfully logged out.")
 			    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
 				});

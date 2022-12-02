@@ -23,7 +23,7 @@
 				}
 				else{
 					// set cookies
-					document.cookie = "uname="+ uname;
+					document.cookie = "username="+ uname;
 					// alert("set cookie "+getCookie("uname"))
 					document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";			
 				}
