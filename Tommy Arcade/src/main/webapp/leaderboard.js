@@ -26,6 +26,26 @@
 					alert("Successfully logged out.")
 			    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
 				});
+				
+				$("#claimdaily").click(function() {
+					$.get({
+						url: "ClaimDailyServlet",
+						dataType: "text",
+						data: {
+							username: currUname
+						},
+						success: function( result ){
+							if(result === "1"){
+								alert("Claimed daily chips! 100 Chips were added to your account.")
+							}
+							else if(result == "0") {
+								alert("Daily chips already claimed :(")
+							}
+					    	document.location.href = "http://localhost:8080/Tommy_Arcade/leaderboard.html";
+					    	
+						}
+					});
+				});
 			}
 		});	
 		// numChips = 1234;
@@ -68,6 +88,9 @@ function buildUserHeader(uname, numChips){
 		</div>
 		<div class = "user-logout header-button" id="logoutbutton" style="display: inline-block;">
 			Logout
+		</div>
+		<div class = "user-logout header-button" id="claimdaily" style="display: inline-block;">
+			Claim Daily!
 		</div>
 		<div class="user-logout" style="display: inline-block;">
 			<span class="uname-display" >${uname}&nbsp;</span>

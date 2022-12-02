@@ -28,7 +28,6 @@
 				});
 				
 				$("#claimdaily").click(function() {
-					alert("clicked claim")
 					$.get({
 						url: "ClaimDailyServlet",
 						dataType: "text",
@@ -36,11 +35,10 @@
 							username: currUname
 						},
 						success: function( result ){
-							alert("claim daily result is: "+result);
-							if(result == 0){
+							if(result === "1"){
 								alert("Claimed daily chips! 100 Chips were added to your account.")
 							}
-							else if(result == 1) {
+							else if(result == "0") {
 								alert("Daily chips already claimed :(")
 							}
 					    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
