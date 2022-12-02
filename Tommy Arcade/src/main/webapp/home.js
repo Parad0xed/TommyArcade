@@ -26,11 +26,35 @@
 					alert("Successfully logged out.")
 			    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
 				});
+				
+				$("#claimdaily").click(function() {
+					alert("clicked claim")
+					$.get({
+						url: "ClaimDailyServlet",
+						dataType: "text",
+						data: {
+							username: currUname
+						},
+						success: function( result ){
+							alert("claim daily result is: "+result);
+							if(result == 0){
+								alert("Claimed daily chips! 100 Chips were added to your account.")
+							}
+							else if(result == 1) {
+								alert("Daily chips already claimed :(")
+							}
+					    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
+					    	
+						}
+					});
+				});
 			}
 		});	
 		// numChips = 1234;
 		// buildUserHeader(currUname, numChips);
 	}
+	
+	
 	
 	socket = new WebSocket("ws://localhost:8080/Tommy_Arcade/chat");
 	socket.onopen = function(event){
@@ -78,28 +102,36 @@
 
 function buildGuestHeader(){
 	let str = `
+		<img src = "images/coin.png" width = "35" height = "35">
 		<div class = "token-display">
-			<span></span>
+			<span>---&nbsp;</span>
 		</div>
 		<div class = "user-logout">
 			<span style = "display: inline-block;"></span>
-			<button class = "login" id="homebutton" onclick="location.href = 'homewithchat.html';">Home</button>
-			<button class = "login" id="loginbutton" onclick="location.href = 'login.html';">Log In</button>
+		</div>
+		<div class = "user-logout header-button" id="loginbutton"  onclick="location.href = 'login.html';" style="display: inline-block;">
+			Login
 		</div>
 	`;
 	document.getElementById("header").innerHTML = str;
+	// <button class = "login" id="homebutton" onclick="location.href = 'homewithchat.html';">Home</button>
+	// <button class = "login" id="loginbutton" onclick="location.href = 'login.html';">Log In</button>
 }
 
 function buildUserHeader(uname, numChips){
 	let str = `
+		<img src = "images/coin.png" width = "35" height = "35">
 		<div class = "token-display">
-			<span>${numChips}</span>
+			<span>${numChips}&nbsp;</span>
 		</div>
-		<div class = "user-logout" style="display: inline-block;">
-			<button class = "logout" id="logoutbutton" type = "submit">Log Out</button>
+		<div class = "user-logout header-button" id="logoutbutton" style="display: inline-block;">
+			Logout
+		</div>
+		<div class = "user-logout header-button" id="claimdaily" style="display: inline-block;">
+			Claim Daily!
 		</div>
 		<div class="user-logout" style="display: inline-block;">
-			<span class="uname-display" >${uname} </span>
+			<span class="uname-display" >${uname}&nbsp;</span>
 		</div>
 		
 	`;

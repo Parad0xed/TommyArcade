@@ -1,6 +1,7 @@
 package login_signup;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,68 @@ import java.util.ArrayList;
 //import com.google.gson.Gson;
 
 public class JDBCConnector {
+	public static int claimDaily(String username) {
+		// 0 is ALREADY CLAIMED, 1 is SUCCESSFULLY CLAIMED, -1 is SQL ERROR
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error JDBCConn: "+e.getMessage());
+		}
+		
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/TommysArcade?user=root&password=root&useSSL=false");
+			st = conn.createStatement();
+			
+			
+			// get current time
+			java.util.Date dt = new java.util.Date();
+			java.text.SimpleDateFormat sdf = 
+			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String currentTime = sdf.format(dt);
+			
+			// get previous claim time
+			rs = st.executeQuery("select claimTime from Users where uname = '"+username+"'");
+			rs.next();
+			java.util.Date prevTime = rs.getTimestamp("claimTime");
+			
+			if(prevTime == null) {
+				// set claim to current time, add chips
+				st.executeUpdate("update Users set claimTime = '"+currentTime+"' where uname = '"+username+"'");
+				addToChips(username, 100);
+				return 1;
+			}
+			
+			long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
+		    boolean moreThanDay = Math.abs(prevTime.getTime() - dt.getTime()) > MILLIS_PER_DAY;
+		    if(moreThanDay) {
+		    	// set claim to current time, add chips
+		    	st.executeUpdate("update Users set claimTime = '"+currentTime+"' where uname = '"+username+"'");
+				addToChips(username, 100);
+		    	return 1;
+		    }
+			
+			
+			return 0;			
+		} catch(SQLException sqle) {
+			System.out.println("SQLE in claimDaily: "+sqle.getMessage());
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle: "+sqle.getMessage());
+			}
+		}
+		return -1;
+	}
 	public static void setChipCount(String username, int num) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
