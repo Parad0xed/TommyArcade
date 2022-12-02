@@ -8,13 +8,14 @@
 	<script src="signup.js"></script>
 </head>
 <body>
-	<form onsubmit="signup()">
+	
 	<div class = "content">
 		<div class = "return">
-			<button onclick = "homewithchat.html"> < Home </button>
+			<button onclick = "location.href = 'homewithchat.html';"> < Home </button>
 		</div>
 		</br>
 		</br>
+	<form id="signupform">
 		<div class = "login-form">
 			<h2 class = "headings" id = "welcome-msg"> Welcome to Tommy's Arcade!</h2>
 			<h4 class = "headings" id="login-header">Sign Up</h4>
@@ -26,9 +27,9 @@
 			<label for="password">Password: </label> 
 			<input type="password" id="password" name="password" placeholder="Password" required/> </br> 
 			</br>
-			<p class = "text" style = "font-size: 14px">Already a member?<a href = "login.html"> Log in</a></p>
+			<p class = "text" style = "font-size: 14px">Already a member? <a style="color:#9a78c2" href = "login.html"> Log in</a></p>
 			<button class = "button" type="submit">Sign Up</button>
 		</div>
-	</div>
 	</form>
+	</div>
 </body>

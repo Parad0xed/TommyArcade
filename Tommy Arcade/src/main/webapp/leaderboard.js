@@ -11,7 +11,25 @@
 		buildGuestHeader();
 	}
 	else{
-		buildUserHeader(currUname);
+		let capUname = currUname.toUpperCase();
+		$.ajax({
+			url: "GetChipsServlet",
+			dataType: "text",	
+			data: {
+				username: currUname,
+			},
+			success: function( result ) {
+				buildUserHeader(capUname, result)
+				$("#logoutbutton").click(function() {
+				    //document.chatform.chatinput.value = ""
+					document.cookie = "uname=";
+					alert("Successfully logged out.")
+			    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
+				});
+			}
+		});	
+		// numChips = 1234;
+		// buildUserHeader(currUname, numChips);
 	}
 	
 	$.get({
@@ -22,12 +40,6 @@
 		}
 	});
 	
-	$("#logoutbutton").click(function() {
-	    //document.chatform.chatinput.value = ""
-		document.cookie = "uname=";
-		alert("Successfully logged out.")
-    	document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
-	});
 })
 
 function buildGuestHeader(){
@@ -44,16 +56,20 @@ function buildGuestHeader(){
 	document.getElementById("header").innerHTML = str;
 }
 
-function buildUserHeader(uname){
+function buildUserHeader(uname, numChips){
 	let str = `
 		<div class = "token-display">
-			<span># of tokens</span>
+			<span>${numChips}</span>
 		</div>
-		<div class = "user-logout">
-			<span style = "display: inline-block;">${uname}</span>
+		<div class = "user-logout" style="display: inline-block;">
 			<button class = "logout" id="logoutbutton" type = "submit">Log Out</button>
 		</div>
+		<div class="user-logout" style="display: inline-block;">
+			<span class="uname-display" >${uname} </span>
+		</div>
+		
 	`;
+	// <button class = "logout" id="logoutbutton" type = "submit">Log Out</button>
 	document.getElementById("header").innerHTML = str;
 }
 
