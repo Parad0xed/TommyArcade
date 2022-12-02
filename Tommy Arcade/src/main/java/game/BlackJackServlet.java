@@ -21,6 +21,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import login_signup.*;
+
 @WebServlet("/BlackJackServlet")
 public class BlackJackServlet extends HttpServlet{
 	
@@ -30,6 +32,10 @@ public class BlackJackServlet extends HttpServlet{
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 		String username = request.getParameter("username");
+		int chipCount = 2000;
+		if(username != null) {
+			// if(!username.isEmpty()) chipCount = JDBCConnector.getChips(username);
+		}
 		
 		if(action.equals("INIT")) {
 			
@@ -48,7 +54,7 @@ public class BlackJackServlet extends HttpServlet{
 			}
 			rtn += "\"" +  deckArr.get(deckArr.size()-1) + "\"";
 			rtn += "]";
-			out.println(rtn);
+			out.println("{\"deck\":"+rtn+",\"chipCount\":" + chipCount + "}");
 		}
 	}
 }

@@ -3,6 +3,7 @@
     <title>Poker</title>
     <link rel="stylesheet" href="ref.css" media="screen">
     <link rel="stylesheet" href="poker.css" media="screen">
+    <link rel = "stylesheet" href = "stylesheet.css">
     <script class="u-script" type="text/javascript" src="jquery.js"></script>
     <script class="u-script" type="text/javascript" src="ref.js"></script>
     <script class="u-script" type="text/javascript" src="poker.js"></script>
@@ -12,7 +13,6 @@
 
 
 <body class="u-body u-xl-mode" data-lang="en">
-	
 	<header class="u-clearfix u-custom-color-1 u-header u-header" id="sec-9f05">
 	<div class="u-clearfix u-sheet u-sheet-1">
         <a class="u-image u-logo u-image-1" data-image-width="465" data-image-height="335">
@@ -27,9 +27,9 @@
             	</a>
         	</div>
     		<div class="u-custom-menu u-nav-container">
-	       		<ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-active-white u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 12px 22px;">Lobby</a>
-				</li><li class="u-nav-item"><a class="u-active-white u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 12px 22px;">Scoreboard</a>
-				</li><li class="u-nav-item"><a class="u-active-white u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 12px 22px;">Logout</a>
+	       		<ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a href="http://localhost:8080/Tommy_Arcade/homewithchat.html" class="u-active-white u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 12px 22px;">Lobby</a>
+				</li><li class="u-nav-item"><a href="http://localhost:8080/Tommy_Arcade/leaderboard.html" class="u-active-white u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 12px 22px;">Leaderboard</a>
+				</li><li class="u-nav-item"><a onclick="logOut()" class="u-active-white u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 12px 22px;">Logout</a>
 				</li></ul>
 			</div>
 	        <div class="u-custom-menu u-nav-container-collapse">
@@ -46,11 +46,12 @@
 			</div>
         </nav>
 	</div>
+	<center><h1>Tommy's Poker Room</h1></center>
 	</header>
 	
    <section class="u-clearfix u-image u-section-1" id="sec-f64b" data-image-width="3840" data-image-height="2160">
       <div class="u-clearfix u-sheet u-sheet-1">
-        <h1 id="status" class="u-align-center u-text u-text-default u-text-white u-text-1">Press Start to Begin Play</h1>
+        <h2 id="status" class="u-align-center u-text u-text-default u-text-white u-text-1">Press Start to Begin Play</h2>
         <img id="oppCard1" class="u-image u-image-default u-preserve-proportions u-image-1" src="images/cards/backB.png" alt="" data-image-width="64" data-image-height="89">
         <img id="oppCard2" class="u-image u-image-default u-preserve-proportions u-image-2" src="images/cards/backB.png" alt="" data-image-width="64" data-image-height="89">
         <img class="u-expanded-width u-image u-image-round u-radius-50 u-image-3" src="images/pokerTable.png" alt="" data-image-width="1242" data-image-height="608">
@@ -87,7 +88,7 @@
     
     <style class="u-overlap-style">.u-overlap:not(.u-sticky-scroll) .u-header {
 		background-color: #21052a !important
-	}</style>
+	}</style> 
     
 </body>
 
