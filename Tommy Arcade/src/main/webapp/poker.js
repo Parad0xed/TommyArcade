@@ -244,7 +244,6 @@ function opponentAction(raiseValue){
 
 function moveState(){
     if(state == "waiting"){
-        state = "preflop";
         startGame();
     }
     else if(allIn){
