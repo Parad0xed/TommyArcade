@@ -236,16 +236,22 @@ background-color: #73278f;
 }
 
 .header-button{
-	background-color: green;
+	background-color: rgba(177, 138, 197, 0.2);
 	position: relative;
 	top: -16px;
 	height: 70px;
 	font-size: 20px;
 	padding: 10px;
-	padding-top: 16px;
+	padding-top: 19px;
 	border-left:10px  red;
 	border: 2px;
 	border-right-color: blue;
 	box-sizing: border-box;
 	cursor: pointer;
+	transition-duration: 0.4s;
+	margin-left: 3px;
+}
+
+.header-button:hover {
+	background-color: rgba(207, 178, 222, 0.4);
 }

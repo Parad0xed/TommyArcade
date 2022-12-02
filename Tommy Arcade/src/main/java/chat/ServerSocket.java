@@ -17,7 +17,7 @@ public class ServerSocket {
 	
 	@OnOpen
 	public void open(Session session) {
-		System.out.println("Connection made!");
+		System.out.println("Connection made!!!");
 		sessionVector.add(session);
 	}
 	

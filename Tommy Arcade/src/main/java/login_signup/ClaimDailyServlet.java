@@ -1,4 +1,4 @@
-package game;
+package login_signup;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import login_signup.JDBCConnector;
 
-@WebServlet("/GetChipsServlet")
-public class GetChipsServlet extends HttpServlet{
+@WebServlet("/ClaimDailyServlet")
+public class ClaimDailyServlet extends HttpServlet{
 private static final long serialVersionUID = 1L;
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		System.out.println("get chips servlet");
+		System.out.println("reached claimdailyservlet");
 		String username = request.getParameter("username");
 		response.setContentType("text/plain");
-		JDBCConnector.getChips(username);
+		int result = JDBCConnector.claimDaily(username);
+		System.out.println("claim daily result: "+result);
 		PrintWriter out = response.getWriter();
-		out.println(JDBCConnector.getChips(username));
+		out.print(result);
 		out.close();
 	}
 }
