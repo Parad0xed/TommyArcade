@@ -11,15 +11,15 @@
 				password: document.getElementById("password").value
 			},
 			success: function( result ) {
-				alert(result)
 				if(result == -1){
 					alert("Invalid username or password")
+					document.getElementById("username").value = ""
+					document.getElementById("password").value = ""
 				}
 				else{
 					// set cookies
-					alert("before setting cookie, check what cookie is: "+getCookie("uname"))
 					document.cookie = "uname="+ uname;
-					alert("set cookie "+getCookie("uname"))
+					// alert("set cookie "+getCookie("uname"))
 					document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";			
 				}
 			}

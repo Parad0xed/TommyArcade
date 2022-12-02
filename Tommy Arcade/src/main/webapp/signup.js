@@ -16,14 +16,15 @@
 				password: document.getElementById("password").value
 			},
 			success: function( result ) {
-				alert(result)
 				if(result == -1){
 					alert("Username already exists")
+					document.getElementById("username").value = ""
+					document.getElementById("password").value = ""
 				}
 				else{
 					// set cookies
 					document.cookie = "uname="+ uname;
-					alert("set cookie "+getCookie("uname"))
+					// alert("set cookie "+getCookie("uname"))
 					document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";			
 				}
 			}

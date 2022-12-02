@@ -33,7 +33,7 @@ html {
 	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
 }
 
-.logout {
+.logout, .login {
   background-color: #C41E3A; 
   border: none;
   color: white;
@@ -49,7 +49,7 @@ html {
 	font-family: Calibri, sans-serif;
 }
 
-.logout:hover {
+.logout:hover, .login:hover {
 	background-color: white;
 	color: #C41E3A;
 	box-shadow: 0 5px 15px rgba(148, 85, 171, .8);
@@ -209,4 +209,43 @@ background-color: #73278f;
 	background-color: white;
 	color: #73278f;
 	box-shadow: 0 5px 10px rgba(148, 85, 171, .8);
+}
+
+#header {
+	font-family: Consolas;
+	font-size: 18pt;
+	position:fixed;
+	left:20%;
+	top:-10px;
+	width: 60%;
+	border-radius: 10px;
+	background-image: radial-gradient(rgba(75, 75, 75, 0.5),rgba(100, 50, 100, 0.8));
+	height: 80px;
+	padding: 18px;
+	padding-top: 26px;
+	box-sizing: border-box;
+	color: #d1cad9;
+}
+
+.token-display {
+	font-family: Consolas;
+}
+
+.uname-display{
+	font-style: italic;
+}
+
+.header-button{
+	background-color: green;
+	position: relative;
+	top: -16px;
+	height: 70px;
+	font-size: 20px;
+	padding: 10px;
+	padding-top: 16px;
+	border-left:10px  red;
+	border: 2px;
+	border-right-color: blue;
+	box-sizing: border-box;
+	cursor: pointer;
 }
