@@ -6,10 +6,10 @@ var state = "waiting";
 var winner = ""
 
 var playerBet = 0;
+var allIn = false;
 var opponentBet = 0;
 var potSize = 0;
 var stackSize = 2000;
-
 
 function startGame(){
         var xhttp = new XMLHttpRequest();
@@ -49,6 +49,8 @@ function startGame(){
                 updateNumbers();
                 state = "preflop";
                 console.log("Game Started...");
+                allIn = false;
+                if(stackSize == 0) allIn = true;
             }
             else{//Insufficient Chips        
                 document.getElementById("status").innerHTML = "Insufficient Chips to Play";
@@ -63,7 +65,7 @@ function startGame(){
 function updateChips(){
     var xhttp = new XMLHttpRequest();
     username = getCookie("username");
-    xhttp.open("GET", "/Tommy_Arcade/ChipUpdateServlet" + "?username=" + username + "&newBalance=" + balance);
+    xhttp.open("GET", "/Tommy_Arcade/ChipUpdateServlet" + "?username=" + username + "&newBalance=" + stackSize);
     xhttp.send();
     console.log("Update Request SEnt");
 }
@@ -132,12 +134,25 @@ function midButtonFunc(){
     }
     else if(playerBet < opponentBet){//Call Opponent Raise
         const diff = opponentBet-playerBet;
-        stackSize -= diff;
-        playerBet += diff;
-        potSize += diff;
-        updateNumbers();
-        document.getElementById("status").innerHTML = "Call " + diff;
-        moveState();
+        if(stackSize > diff){//Can call full
+            stackSize -= diff;
+            playerBet += diff;
+            potSize += diff;
+            updateNumbers();
+            document.getElementById("status").innerHTML = "Call " + diff;
+            moveState();
+        }
+        else{//All in
+            allIn = true;
+            playerBet += stackSize;
+            potSize -= diff;
+            potSize += 2*stackSize;
+            stackSize = 0;
+            updateNumbers();
+            document.getElementById("status").innerHTML = "All in for " + stackSize;
+            moveState();
+        }
+        
     }
 }
 
@@ -152,7 +167,10 @@ function rightButtonFunc(){
         var raise;
         while (true){
             raise = parseInt(prompt("How much would you like to bet?"));
-            if(raise <= stackSize){//Valid Bet
+            if(raise < 0) alert("Invalid Bet");
+            else if(raise==0) break;
+            else if(raise <= stackSize){//Valid Bet
+                if(raise == stackSize) allIn=true;
                 stackSize -= raise;
                 playerBet += raise;
                 potSize += raise;
@@ -167,13 +185,14 @@ function rightButtonFunc(){
     }
     else if(opponentBet > playerBet){//Re Raise
         const diff = opponentBet - playerBet;
-        raise = parseInt(prompt("How much would you like to rebet?"));
+        while(true){
+            raise = parseInt(prompt("How much would you like to rebet?"));
             if(raise < stackSize && raise >= diff){//Valid Bet
                 stackSize -= (raise + diff);
                 playerBet += (raise + diff);
                 potSize += (raise + diff);
                 updateNumbers();
-
+                opponentAction(raise);
             }
             else if(raise > stackSize){
                 alert("Insufficient Chips");
@@ -181,6 +200,8 @@ function rightButtonFunc(){
             else if (raise < diff){
                 alert("Reraise is too small (must be at least previous bet)")
             }
+        }
+       
 
     }
 }
@@ -198,7 +219,6 @@ function opponentAction(raiseValue){
             potSize += (raiseValue*100);
             opponentBet += (raiseValue*100);
             updateNumbers();
-            
         }
     }
     else if(raiseValue > 0){//Player raises
@@ -212,10 +232,9 @@ function opponentAction(raiseValue){
             document.getElementById("rightButton").textContent = "RUNOUT";
         }
         else{//Opponent Calls
-            const diff = playerBet-opponentBet;
-            opponentBet += diff;
-            potSize += diff;
-            document.getElementById("status").innerHTML = "Opponent Calls " + diff;
+            opponentBet += raiseValue;
+            potSize += raiseValue;
+            document.getElementById("status").innerHTML = "Opponent Calls " + raiseValue;
             updateNumbers();
             moveState();
         }
@@ -227,6 +246,32 @@ function moveState(){
     if(state == "waiting"){
         state = "preflop";
         startGame();
+    }
+    else if(allIn){
+        state = "postgame";
+        flop();
+        turn();
+        river();
+        showdown();
+        document.getElementById("leftButton").textContent = "-----";
+        document.getElementById("midButton").textContent = "PLAY AGAIN";
+        document.getElementById("rightButton").textContent = "-----";
+
+        if(winner == "player"){
+            document.getElementById("status").innerHTML = "You win " + potSize + " with " + winningHand;
+            stackSize += potSize;
+        }
+        else if(winner == "opponent"){
+            document.getElementById("status").innerHTML = "Opponent wins " + potSize + " with " + winningHand;
+        }
+        else if(winner == "both"){
+            document.getElementById("status").innerHTML = "Split pot with " + winningHand;
+            stackSize += (potSize/2);
+        }
+        winner = "";
+        updateNumbers();
+        updateChips();
+        allIn=false;
     }
     else if(state == "preflop"){
         state = "flop";
@@ -261,6 +306,7 @@ function moveState(){
         winner = "";
         updateNumbers();
         updateChips();
+        allIn=false;
     }
     else if(state == "postgame"){
         state = "preflop"
@@ -273,4 +319,17 @@ function updateNumbers(){
     document.getElementById("opponentBet").innerHTML = "OPPONENT BET<br>" + opponentBet;
     document.getElementById("potSize").innerHTML = "POT SIZE<br>" + potSize;
     document.getElementById("stackSize").innerHTML = "STACK SIZE<br>" + stackSize;
+}
+
+window.onload = function welcomeMessage(){
+	alert("Welcome to Tommy's Poker Room! Enjoy your stay!");
+	if(getCookie("username").length > 0){//Checks for user
+		return;
+	}
+	alert("NOTICE: You are playing on a guest account. Any chips earned/lost will not be saved.");
+}
+
+function logOut(){
+    document.cookie = "username=";
+    document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
 }

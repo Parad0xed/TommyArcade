@@ -12,6 +12,8 @@ var playerBet = 0;
 var opponentBet = 0;
 var potSize = 0;
 var stackSize = 2000;
+var chipCount = 2000;
+var username = null;
 
 
 function startGame(){
@@ -29,7 +31,11 @@ function startGame(){
 			// Reset the top of the deck
 			deckTop = 0;
 			// Load the new deck of cards from the backend
-            deck = JSON.parse(this.responseText);
+			jsonData = JSON.parse(this.responseText);
+            deck = jsonData.deck;
+            chipCount =  jsonData.chipCount;
+            document.getElementById("balance").innerHTML = chipCount;
+            
             // Deal two cards to the player and the dealer
             dealPlayer();
             
@@ -42,7 +48,7 @@ function startGame(){
             
             dealerCards.push(deck[deckTop]);
             updateDealerValue(deck[deckTop]);
-    		document.getElementById("dealer2").src = "images/cards/backB.png";
+    		document.getElementById("dealer2").src = "images/cards/backR.png";
     		deckTop++;
     		
     		// Check player BlackJack
@@ -53,6 +59,7 @@ function startGame(){
 				}
 				else {
 					document.getElementById("status").innerHTML = "YOU WIN: BLACK JACK";
+					chipCount += 100;
 				}
 				
 				// Update Player TOKEN
@@ -64,7 +71,7 @@ function startGame(){
 				if (dealerValue == 21){
 					// Dealer Win
 					document.getElementById("status").innerHTML = "YOU LOSE: Dealer Got a BLACK JACK";
-					
+					chipCount -= 100;
 					// Update Player TOKEN
 					restartGame();
 				}
@@ -77,8 +84,7 @@ function startGame(){
 			}
 			document.getElementById("status").textContent = "-----";
         };
-        // /username = getCookie("username");
-        username = "Player1"
+        username = getCookie("username");
         xhttp.open("GET", "/Tommy_Arcade/BlackJackServlet" + "?username=" + username + "&action=" + "INIT", true);
         xhttp.send();
     }
@@ -144,6 +150,7 @@ function leftButtonFunc(){//Fold
 		if(dealerValue > 21)
 		{
 			document.getElementById("status").innerHTML = "YOU WIN: Dealer BUST";
+			chipCount += 100;
 		}
 		else if(dealerValue == playerValue)
 		{
@@ -152,9 +159,11 @@ function leftButtonFunc(){//Fold
 		else if(dealerValue > playerValue)
 		{
 			document.getElementById("status").innerHTML = "YOU LOSE: " + String(playerValue) + " vs " + String(dealerValue);
+			chipCount -= 100;
 		}
 		else {
 			document.getElementById("status").innerHTML = "YOU WIN: " + String(playerValue) + " vs " + String(dealerValue);
+			chipCount += 100;
 		}
 		restartGame();
     }
@@ -173,7 +182,7 @@ function midButtonFunc(){
     else if (state == "postgame"){
 		// Clear Screen
 		for (let i = 1; i < 8; i++){
-			document.getElementById("dealer" + String(i)).src = "images/cards/backB.png";
+			document.getElementById("dealer" + String(i)).src = "images/cards/backR.png";
 		}
 		document.getElementById("playerHand").innerHTML = "";
 		
@@ -187,6 +196,7 @@ function midButtonFunc(){
 		// Check player bust
 		if ((playerValue - 10*playerAce) > 21) {
 			document.getElementById("status").innerHTML = "YOU LOSE: BUST";
+			chipCount -= 100;
 			restartGame();
 		}
 		else{
@@ -195,12 +205,49 @@ function midButtonFunc(){
 	}
 }
 
-function rightButtonFunc(){
-    
-}
-
 function restartGame(){
+	// Update the balance on display
+	document.getElementById("balance").innerHTML = chipCount;
+	// Send the new chipCount/balance to the database
+	var xhttp = new XMLHttpRequest();
+    username = getCookie("username");
+    xhttp.open("GET", "/Tommy_Arcade/ChipUpdateServlet" + "?username=" + username + "&newBalance=" + chipCount);
+    xhttp.send();
+    console.log("Update Request SEnt");
+    
 	state = "postgame";
 	document.getElementById("leftButton").textContent = "-----";
 	document.getElementById("midButton").textContent = "REPLAY";
+}
+
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
+    }
+    else
+    {
+        begin += 2;
+        var end = document.cookie.indexOf(";", begin);
+        if (end == -1) {
+        end = dc.length;
+        }
+    }
+    return decodeURI(dc.substring(begin + prefix.length, end));
+}
+
+window.onload = function welcomeMessage(){
+	alert("Welcome to Tommy's Blackjack Table! Enjoy your stay!");
+	if(getCookie("username").length > 0){//Checks for user
+		return;
+	}
+	alert("NOTICE: You are playing on a guest account. Any chips earned/lost will not be saved.");
+}
+
+function logOut(){
+    document.cookie = "username=";
+    document.location.href = "http://localhost:8080/Tommy_Arcade/homewithchat.html";
 }
